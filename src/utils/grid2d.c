@@ -13,85 +13,11 @@
 #include <string.h>
 
 static grid2d_t*
-determine_file_size(grid2d_t* g);
-
-static grid2d_t*
-read_file_content(grid2d_t* g);
-
-static grid2d_t*
-store_grid(grid2d_t* g);
-
-grid2d_t*
-grid2d_init(char* file_path)
-{
-    if (file_path == NULL)
-        return NULL;
-
-    grid2d_t* g = (grid2d_t*)malloc(sizeof(grid2d_t));
-    if (g == NULL)
-        return NULL;
-
-    FILE* fp = fopen(file_path, "r");
-    if (!fp)
-    {
-        perror("Could not open file");
-        free(g);
-        return NULL;
-    }
-
-    g->fp = fp;
-    if (determine_file_size(g) == NULL)
-    {
-        perror("Could not determine file size");
-        fclose(g->fp);
-        free(g);
-        return NULL;
-    }
-
-    if (read_file_content(g) == NULL)
-    {
-        perror("Could not read file to buffer");
-        fclose(g->fp);
-        free(g);
-        return NULL;
-    }
-
-    if (store_grid(g) == NULL)
-    {
-        perror("Could not parse lines");
-        fclose(g->fp);
-        free(g->file_buffer);
-        free(g);
-        return NULL;
-    }
-
-    fclose(g->fp);
-
-    return g;
-}
-
-void
-grid2d_print(grid2d_t* g)
-{
-    for (size_t i = 0U; i < g->max_y; i++)
-    {
-        printf("%s\n", g->grid[i]);
-    }
-}
-
-void
-grid2d_destroy(grid2d_t* d)
-{
-    free(d->file_buffer);
-    free(d->grid);
-    free(d);
-
-    return;
-}
-
-static grid2d_t*
 determine_file_size(grid2d_t* g)
 {
+    assert(g != NULL);
+    assert(g->fp != NULL);
+
     if (fseek(g->fp, 0, SEEK_END) != 0)
         return NULL;
 
@@ -120,48 +46,122 @@ read_file_content(grid2d_t* g)
     if (g->file_buffer == NULL)
         return NULL;
 
-    fread(g->file_buffer, 1, g->file_size, g->fp);
+    if (fread(g->file_buffer, 1, g->file_size, g->fp) != g->file_size)
+    {
+        free(g->file_buffer);
+        return NULL;
+    }
+
     g->file_buffer[g->file_size] = '\0';
 
     return g;
 }
 
 static grid2d_t*
-store_grid(grid2d_t* g)
+prepare_grid(grid2d_t* g)
 {
     assert(g != NULL);
 
+    /* determine max y by counting EOL */
     for (size_t i = 0U; i < g->file_size; i++)
-        if (g->file_buffer[i] == '\n') /* \r not supported */
+        if (g->file_buffer[i] == '\n')
             g->max_y++;
 
     g->grid = (char**)malloc(g->max_y * sizeof(char*));
-
     if (g->grid == NULL)
-    {
-        perror("Memory allocation error");
         return NULL;
-    }
 
-    char *currentLine = g->file_buffer;
-
-    while (*(currentLine++) != '\n')
-    {
+    char *p = g->file_buffer;
+    /* determine max x by counting until EOL in the first line */
+    while (*(p++) != '\n')
         g->max_x++;
-    }
 
-    currentLine = g->file_buffer;
+    p = g->file_buffer;
     for (size_t i = 0U; i < g->max_y; i++)
     {
-        g->grid[i] = currentLine;
-        currentLine = strchr(currentLine, '\n');
-        if (currentLine != NULL)
+        g->grid[i] = p;
+        size_t line_length = strcspn(p, "\n");
+        if (line_length != g->max_x)
         {
-            *currentLine = '\0';
-            currentLine++;
+            free(g->grid);
+            return NULL;
         }
+        g->grid[i][line_length] = '\0';
+        p += line_length + 1U;
     }
 
     return g;
 }
 
+
+grid2d_t*
+grid2d_init(char* file_path)
+{
+    if (file_path == NULL)
+        return NULL;
+
+    grid2d_t* g = (grid2d_t*)malloc(sizeof(grid2d_t));
+    if (g == NULL)
+    {
+        perror("Memory allocation error");
+        return NULL;
+    }
+
+    FILE* fp = fopen(file_path, "r");
+    if (!fp)
+    {
+        perror("Could not open file");
+        free(g);
+        return NULL;
+    }
+
+    g->fp = fp;
+    if (determine_file_size(g) == NULL)
+    {
+        perror("Could not determine file size");
+        fclose(g->fp);
+        free(g);
+        return NULL;
+    }
+
+    if (read_file_content(g) == NULL)
+    {
+        perror("Could not read file to buffer");
+        fclose(g->fp);
+        free(g);
+        return NULL;
+    }
+
+    if (prepare_grid(g) == NULL)
+    {
+        perror("Could not prepare grid");
+        fclose(g->fp);
+        free(g);
+        return NULL;
+    }
+
+    fclose(g->fp);
+
+    return g;
+}
+
+void
+grid2d_print(grid2d_t* g)
+{
+    if ((g == NULL) || (g->grid == NULL))
+        return;
+
+    printf("x=%zu, y=%zu:\n", g->max_x, g->max_y);
+    for (size_t i = 0U; i < g->max_y; i++)
+        printf("%s\n", g->grid[i]);
+}
+
+void
+grid2d_destroy(grid2d_t* g)
+{
+    free(g->file_buffer);
+    free(g->grid);
+    free(g);
+
+    return;
+}

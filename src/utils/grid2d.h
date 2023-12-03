@@ -1,5 +1,8 @@
 /*
- * Manage a 2D rectangular grid.
+ * Manage a 2D rectangular grid read from a file.
+ *
+ * Each row must end with a newline character (\n).
+ * First line determines number of rows.
  *
  * (C) Copyright 2023 "piscilus" Julian Kraemer
  *
@@ -30,6 +33,6 @@ void
 grid2d_print(grid2d_t* g);
 
 void
-grid2d_destroy(grid2d_t* d);
+grid2d_destroy(grid2d_t* g);
 
 #endif /* GRID2D_H_ */
