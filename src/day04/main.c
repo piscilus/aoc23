@@ -13,7 +13,7 @@
 #include <string.h>
 
 int
-check_line(char* l)
+check_line(char* l, size_t* wins)
 {
     int wn[20];
 
@@ -27,22 +27,22 @@ check_line(char* l)
     }
     while (*(l++) != '|');
     int num = 0;
-    int num_wins = 0;
+    *wins = 0U;
     while (l != NULL && sscanf(l, " %d%n", &num, &chars_read) == 1)
     {
         for (size_t i = 0U; i < (sizeof(wn) / sizeof(wn[0])); i++)
             if (wn[i] == num)
             {
-                num_wins++;
+                (*wins)++;
                 break;
             }
         l = strchr(l + chars_read, ' ');
     }
 
-    if (num_wins > 0)
+    if (*wins > 0U)
     {
         int res = 1;
-        for (int i = 0; i < (num_wins - 1); i++)
+        for (size_t i = 0U; i < (*wins - 1U); i++)
             res *= 2;
         return res;
     }
@@ -66,12 +66,35 @@ main(int argc, char *argv[])
     if (d == NULL)
         exit(EXIT_FAILURE);
 
-    char* l = NULL;
     int part1 = 0;
+    int part2 = 0;
+
+    size_t num_cards = data_num_lines(d);
+    int* a = calloc(num_cards, sizeof(int));
+    if (a == NULL)
+        return EXIT_FAILURE;
+
+    size_t wins;
+    char* l = NULL;
+    size_t card = 0;
     while ((l = data_next_line(d)) != NULL)
-        part1 += check_line(l);
+    {
+        part1 += check_line(l, &wins);
+        a[card]++;
+        for (int c = 0; c < a[card]; c++)
+            for (size_t n = card + 1U; n < card + 1U + wins; n++)
+                if (n < num_cards)
+                    a[n]++;
+        card++;
+    }
+
+    for(size_t i = 0U; i < num_cards; i++)
+        part2 += a[i];
 
     printf("Part1: %d\n", part1);
+    printf("Part2: %d\n", part2);
+
+    free(a);
 
     data_destroy(d);
 
