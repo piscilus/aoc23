@@ -22,6 +22,7 @@ typedef struct
     size_t file_size; /* w/out null terminator */
     char* file_buffer; /* complete file content null terminated */
     char** grid;
+    size_t** flags;
     size_t max_x;
     size_t max_y;
 } grid2d_t;

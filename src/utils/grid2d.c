@@ -90,6 +90,23 @@ prepare_grid(grid2d_t* g)
         p += line_length + 1U;
     }
 
+    g->flags = (size_t**)calloc(g->max_y, sizeof(size_t*));
+    if (g->grid == NULL)
+    {
+        free(g->grid);
+        return NULL;
+    }
+
+    for (size_t y = 0; y < g->max_y; y++)
+    {
+        g->flags[y] = (size_t*)calloc(g->max_x, sizeof(size_t));
+        if (g->flags[y] == NULL) {
+            free(g->grid);
+            free(g->flags);
+            return NULL;
+        }
+    }
+
     return g;
 }
 
@@ -160,6 +177,9 @@ void
 grid2d_destroy(grid2d_t* g)
 {
     free(g->file_buffer);
+    for (size_t y = 0U; y < g->max_y; y++)
+        free(g->flags[y]);
+    free(g->flags);
     free(g->grid);
     free(g);
 
