@@ -73,6 +73,7 @@ detect_lines(data_t* d)
 {
     assert(d != NULL);
 
+    d->num_lines = 0U;
     for (size_t i = 0U; i < d->file_size; i++)
         if (d->file_buffer[i] == '\n') /* \r not supported */
             d->num_lines++;
