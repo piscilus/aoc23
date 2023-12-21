@@ -27,7 +27,8 @@ CFLAGS_DEBUG =\
 LD = gcc
 LDFLAGS =\
 	-fsanitize=undefined\
-	-fsanitize-undefined-trap-on-error
+	-fsanitize-undefined-trap-on-error\
+	-lm
 LDFLAGS_PROFILE =\
 	-pg
 LDFLAGS_DEBUG =\
