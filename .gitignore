@@ -3,4 +3,5 @@
 **/profile
 **/data_contest.txt
 **/*.out
+**/*.png
 src/dayxx/**
