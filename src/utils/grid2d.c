@@ -63,6 +63,7 @@ prepare_grid(grid2d_t* g)
     assert(g != NULL);
 
     /* determine max y by counting EOL */
+    g->max_y = 0U;
     for (size_t i = 0U; i < g->file_size; i++)
         if (g->file_buffer[i] == '\n')
             g->max_y++;
@@ -73,6 +74,7 @@ prepare_grid(grid2d_t* g)
 
     char *p = g->file_buffer;
     /* determine max x by counting until EOL in the first line */
+    g->max_x = 0U;
     while (*(p++) != '\n')
         g->max_x++;
 
