@@ -7,79 +7,34 @@
  * See file LICENSE for details or copy at https://opensource.org/licenses/MIT
  */
 
-#include <assert.h>
-#include <ctype.h>
+#include "data.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_LINE_SIZE (1024)
-
-/* solves part 1 independently */
-int
-part1(FILE* fp);
-
-/* solves part 2 independently */
-int
-part2(FILE* fp);
-
-int
-main(int argc, char *argv[])
+static int
+part1(data_t* d)
 {
-    printf("Advent of Code 2023 - Day 1: Trebuchet?!\n\n");
-
-    if (argc != 2)
-    {
-        fprintf(stderr, "Please provide data record file name!\n");
-        exit(EXIT_FAILURE);
-    }
-
-    FILE* fp = fopen(argv[1], "r");
-    if (!fp)
-    {
-        perror("Could not open file");
-        exit(EXIT_FAILURE);
-    }
-
-    int p1_cv = part1(fp);
-    rewind(fp);
-    int p2_cv = part2(fp);
-    fclose(fp);
-
-    printf("Part 1: Calibration value = %d\n", p1_cv);
-    printf("Part 2: Calibration value = %d\n", p2_cv);
-
-    return EXIT_SUCCESS;
-}
-
-int
-part1(FILE* fp)
-{
-    assert(fp != NULL);
-
     int calibration_value = 0;
-    char line[MAX_LINE_SIZE];
-    while (fgets(line, sizeof(line), fp) != NULL)
+    char* l;
+    while ((l = data_next_line(d)) != NULL)
     {
         int number = 0;
         int mul = 10;
-        for (size_t i = 0; i < sizeof(line); i++)
+        for (size_t i = 0U; i < strlen(l); i++)
         {
-            if (line[i] == '\n')
+            if ((l[i] >= 0x31) && (l[i] <= 0x39)) /* digit 0..9 */
             {
-                break;
-            }
-            if ((line[i] >= 0x31) && (line[i] <= 0x39))
-            {
-                if (mul == 10)
+                if (mul == 10) /* the first digit */
                 {
-                    number = line[i] - 0x30;
+                    number = l[i] - 0x30;
                     calibration_value += number * mul;
                     mul = 0;
                 }
-                else
+                else /* any other digit -> the last */
                 {
-                    number = line[i] - 0x30;
+                    number = l[i] - 0x30;
                 }
             }
         }
@@ -89,11 +44,9 @@ part1(FILE* fp)
     return calibration_value;
 }
 
-int
-part2(FILE* fp)
+static int
+part2(data_t* d)
 {
-    assert(fp != NULL);
-
     const char* digits[] =
     {
         "one",
@@ -108,34 +61,32 @@ part2(FILE* fp)
     };
 
     int calibration_value = 0;
-    char line[MAX_LINE_SIZE];
-    while (fgets(line, sizeof(line), fp) != NULL)
+    char* l;
+    while ((l = data_next_line(d)) != NULL)
     {
-        size_t len = 0U;
-        while (line[len++] != '\n'); /* assume EOL exists */
-        line[len - 1U] = '\0';
         int number = 0;
         int mul = 10;
-        for (size_t i = 0; i < strlen(line); i++)
+        for (size_t i = 0U; i < strlen(l); i++)
         {
-            if ((line[i] >= 0x31) && (line[i] <= 0x39))
+            if ((l[i] >= 0x31) && (l[i] <= 0x39)) /* digit 0..9 */
             {
-                if (mul == 10)
+                if (mul == 10) /* the first digit */
                 {
-                    number = line[i] - 0x30;
+                    number = l[i] - 0x30;
                     calibration_value += number * mul;
                     mul = 0;
                 }
-                else
+                else /* any other digit -> the last */
                 {
-                    number = line[i] - 0x30;
+                    number = l[i] - 0x30;
                 }
             }
             else
             {
-                for (size_t n = 0; n < 9; n++)
+                /* one of the spelled numbers? */
+                for (size_t n = 0U; n < 9U; n++)
                 {
-                    if (strncmp(&line[i], digits[n], strlen(digits[n])) == 0)
+                    if (strncmp(&l[i], digits[n], strlen(digits[n])) == 0)
                     {
                         if (mul == 10)
                         {
@@ -156,4 +107,33 @@ part2(FILE* fp)
     }
 
     return calibration_value;
+}
+
+int
+main(int argc, char *argv[])
+{
+    printf("Advent of Code 2023 - Day 1: Trebuchet?!\n\n");
+
+    if (argc != 2)
+    {
+        fprintf(stderr, "Please provide data record file name!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    data_t* d = data_init(argv[1]);
+    if (d == NULL)
+        exit(EXIT_FAILURE);
+
+    int calibration_value;
+
+    calibration_value = part1(d);
+    printf("Part 1: Calibration value = %d\n", calibration_value);
+
+    data_reset(d);
+    calibration_value = part2(d);
+    printf("Part 2: Calibration value = %d\n", calibration_value);
+
+    data_destroy(d);
+
+    return EXIT_SUCCESS;
 }

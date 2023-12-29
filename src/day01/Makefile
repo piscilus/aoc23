@@ -3,11 +3,11 @@ TARGET_NAME = program
 
 # Specify all source files:
 SOURCES = main.c
-# SOURCES +=
+SOURCES += ../utils/data.c
 
 # Specify all include paths:
 INCLUDES = -I.
-# INCLUDES += -I../utils
+INCLUDES += -I../utils
 
 # Specify defines:
 DEFINES =
