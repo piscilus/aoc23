@@ -16,9 +16,9 @@
 struct data
 {
     FILE* fp;
-    size_t file_size; /* w/out null terminator */
+    size_t file_size;  /* w/out null terminator */
     char* file_buffer; /* complete file content null terminated */
-    char** lines;  /* list of pointers to line beginnings */
+    char** lines;      /* list of pointers to line beginnings */
     size_t num_lines;
     size_t current_line;
 };
@@ -83,7 +83,7 @@ detect_lines(data_t* d)
     if (d->lines == NULL)
         return NULL;
 
-    char *currentLine = d->file_buffer;
+    char* currentLine = d->file_buffer;
     for (size_t i = 0U; i < d->num_lines; i++)
     {
         d->lines[i] = currentLine;

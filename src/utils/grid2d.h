@@ -13,13 +13,13 @@
 #ifndef GRID2D_H_
 #define GRID2D_H_
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct
 {
     FILE* fp;
-    size_t file_size; /* w/out null terminator */
+    size_t file_size;  /* w/out null terminator */
     char* file_buffer; /* complete file content null terminated */
     char** grid;
     size_t** flags;

@@ -70,7 +70,8 @@ calc_hash(const char* key) /* djb2 */
 }
 
 static const char*
-write(entry_t* entry, size_t size, const char* key, const void* new_data, size_t data_size, size_t* used)
+write(entry_t* entry, size_t size, const char* key, const void* new_data,
+      size_t data_size, size_t* used)
 {
     size_t hash = calc_hash(key);
     size_t i = hash & (size - 1U);

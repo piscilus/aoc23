@@ -28,12 +28,13 @@ typedef struct queue_list queue_t;
 /**
  * \brief Initialize a new queue.
  *
- * This function prepares a queue prior use. The provided \p item_size must be
- * greater than 0.
+ * This function prepares a queue prior use. The provided \p item_size must
+ * be greater than 0.
  *
  * \param[in] item_size Size of each item to be stored in the queue.
  *
- * \return Pointer to the initialized queue, or NULL if initialization failed.
+ * \return Pointer to the initialized queue, or NULL if initialization
+ * failed.
  */
 queue_t*
 queue_init(size_t item_size);
@@ -44,7 +45,7 @@ queue_init(size_t item_size);
  * This function copies the data of an item into the queue.
  *
  * \pre The given queue \p q must be valid, i.e., initialized with
- *      \ref queue_init() and \p item must point to a valid memory location.
+ * \ref queue_init() and \p item must point to a valid memory location.
  *
  * \param[in,out] q    Pointer to the queue.
  * \param[in]     item Pointer to the item to be enqueued.
@@ -58,8 +59,8 @@ queue_enqueue(queue_t* q, const void* item);
 /**
  * \brief Dequeues oldest item.
  *
- * This function copies the data of the oldest item of the queue to the given
- * location \p item and removed it from the queue.
+ * This function copies the data of the oldest item of the queue to the
+ * given location \p item and removed it from the queue.
  *
  * \pre The given queue \p q must be valid, i.e., initialized with
  *      \ref queue_init() and \p item must point to a valid memory location.
@@ -76,8 +77,8 @@ queue_dequeue(queue_t* q, void* item);
 /**
  * \brief Peek at the oldest item of the queue without removing it.
  *
- * This function copies the data of the oldest item of the queue to the given
- * location \p item without removing it from the queue.
+ * This function copies the data of the oldest item of the queue to the
+ * given location \p item without removing it from the queue.
  *
  * \pre The given queue \p q must be valid, i.e., initialized with
  *      \ref queue_init() and \p item must point to a valid memory location.

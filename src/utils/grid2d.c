@@ -72,7 +72,7 @@ prepare_grid(grid2d_t* g)
     if (g->grid == NULL)
         return NULL;
 
-    char *p = g->file_buffer;
+    char* p = g->file_buffer;
     /* determine max x by counting until EOL in the first line */
     g->max_x = 0U;
     while (*(p++) != '\n')
@@ -102,7 +102,8 @@ prepare_grid(grid2d_t* g)
     for (size_t y = 0; y < g->max_y; y++)
     {
         g->flags[y] = (size_t*)calloc(g->max_x, sizeof(size_t));
-        if (g->flags[y] == NULL) {
+        if (g->flags[y] == NULL)
+        {
             free(g->grid);
             free(g->flags);
             return NULL;
@@ -111,7 +112,6 @@ prepare_grid(grid2d_t* g)
 
     return g;
 }
-
 
 grid2d_t*
 grid2d_init(char* file_path)
