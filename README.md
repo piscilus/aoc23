@@ -53,3 +53,9 @@ $> ./program data_example.txt
 ```
 
 I use gcc, GNU make, Visual Studio Code for development and debugging.
+
+Code style formatter:
+
+```console
+clang-format-17 --fallback-style=none -i src/...
+```

@@ -1,0 +1,79 @@
+# clang-format 17
+
+# https://clang.llvm.org/docs/ClangFormat.html
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+# https://releases.llvm.org/17.0.1/tools/clang/docs/ClangFormatStyleOptions.html
+
+---
+Language: Cpp
+BasedOnStyle: LLVM
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: false
+AlignConsecutiveBitFields: true
+AlignEscapedNewlines: DontAlign
+AlignOperands: AlignAfterOperator
+AlignTrailingComments: true
+IndentWidth: 4
+PPIndentWidth: 0
+IndentPPDirectives: None
+AllowAllArgumentsOnNextLine: false
+AlwaysBreakAfterReturnType: All
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: No
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterControlStatement : Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeElse: true
+  BeforeWhile: true
+  IndentBraces: false
+  SplitEmptyRecord: true
+BracedInitializerIndentWidth: 4
+BreakArrays: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Custom
+BreakBeforeTernaryOperators: true
+BreakStringLiterals: true
+ColumnLimit: 80
+ContinuationIndentWidth: 4
+IncludeBlocks: Regroup
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentExternBlock: NoIndent
+IndentGotoLabels: false
+InsertNewlineAtEOF: true
+KeepEmptyLinesAtEOF: true
+LineEnding: LF
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Left
+QualifierAlignment : Left
+ReferenceAlignment: Right
+ReflowComments: true
+RemoveParentheses: Leave
+RemoveSemicolon: false
+SeparateDefinitionBlocks: Always
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAroundPointerQualifiers: After
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInConditionalStatement: false
+SpacesInCStyleCastParentheses: false
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+UseTab: Never
+...
