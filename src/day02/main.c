@@ -31,7 +31,7 @@ char*
 search_bag(char* p, cubes_t* bag);
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 2: Cube Conundrum\n\n");
 
@@ -57,7 +57,8 @@ main(int argc, char *argv[])
         char* p = strchr(line, '\n');
         *p = '\0';
         p = line;
-        while (*(p++) != ':'); /* skip 'Game <N>:' */
+        while (*(p++) != ':')
+            ; /* skip 'Game <N>:' */
         cubes_t max = {0};
         bool part1_limit = true;
         while (*p != '\0')
@@ -71,7 +72,7 @@ main(int argc, char *argv[])
         }
         if (part1_limit)
             sum_part1 += game;
-        sum_part2 += (max.r * max.g * max. b);
+        sum_part2 += (max.r * max.g * max.b);
         game++;
     }
 
@@ -85,9 +86,7 @@ main(int argc, char *argv[])
 bool
 part1_check(const cubes_t* bag)
 {
-    if (   (bag->r <= 12)
-        && (bag->g <= 13)
-        && (bag->b <= 14))
+    if ((bag->r <= 12) && (bag->g <= 13) && (bag->b <= 14))
         return true;
     return false;
 }
@@ -126,8 +125,7 @@ search_bag(char* p, cubes_t* bag)
                 default:
                     break;
             }
-            while ((*p != '\0') && (*p != ';') && (*p != ','))
-                p++;
+            while ((*p != '\0') && (*p != ';') && (*p != ',')) p++;
         }
         else
         {

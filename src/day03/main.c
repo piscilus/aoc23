@@ -71,7 +71,7 @@ add_gear(size_t y, size_t x, int val)
             return;
         }
     }
-    assert (gears.num_gears < gears.max_gears);
+    assert(gears.num_gears < gears.max_gears);
     gears.gears[gears.num_gears]->x = x;
     gears.gears[gears.num_gears]->y = y;
     gears.gears[gears.num_gears]->count = 1;
@@ -129,7 +129,7 @@ check_neighbor(size_t y, size_t x_first, size_t x_last, int val)
 }
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 3: Gear Ratios\n\n");
 

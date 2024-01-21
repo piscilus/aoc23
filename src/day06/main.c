@@ -11,8 +11,8 @@
 
 #include <assert.h>
 #include <ctype.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 size_t
@@ -20,8 +20,10 @@ get_nums(const char* p, int val[], size_t size)
 {
     size_t i = 0;
     int chars_read = 0;
-    while (*(p++) != ':'); /* skip until : */
-    while ((p != NULL) && (i < size) && (sscanf(p, " %d%n", &val[i], &chars_read) == 1 ))
+    while (*(p++) != ':')
+        ; /* skip until : */
+    while ((p != NULL) && (i < size)
+           && (sscanf(p, " %d%n", &val[i], &chars_read) == 1))
     {
         p = strchr(p + chars_read, ' ');
         i++;
@@ -34,7 +36,8 @@ uint64_t
 get_num_part2(const char* p)
 {
     uint64_t result = 0U;
-    while (*(p++) != ':');
+    while (*(p++) != ':')
+        ;
     while (*p)
     {
         if (isdigit(*p))
@@ -48,7 +51,7 @@ get_num_part2(const char* p)
 }
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 7: Camel Cards\n\n");
 
@@ -65,8 +68,10 @@ main(int argc, char *argv[])
 
     int tim[10];
     int dis[10];
-    size_t num_tim = get_nums(data_set_line(d, 0), tim, sizeof(tim) / sizeof(tim[0]));
-    size_t num_dis = get_nums(data_set_line(d, 1), dis, sizeof(dis) / sizeof(dis[0]));
+    size_t num_tim =
+        get_nums(data_set_line(d, 0), tim, sizeof(tim) / sizeof(tim[0]));
+    size_t num_dis =
+        get_nums(data_set_line(d, 1), dis, sizeof(dis) / sizeof(dis[0]));
 
     assert(num_dis == num_tim);
 

@@ -17,7 +17,8 @@ check_line(char* l, size_t* wins)
 {
     int wn[20];
 
-    while (*(l++) != ':'); /* skip 'Card <N>:' */
+    while (*(l++) != ':')
+        ; /* skip 'Card <N>:' */
     int i = 0;
     int chars_read = 0;
     while (l != NULL && sscanf(l, " %d%n", &wn[i], &chars_read) == 1)
@@ -25,7 +26,8 @@ check_line(char* l, size_t* wins)
         i++;
         l = strchr(l + chars_read, ' ');
     }
-    while (*(l++) != '|');
+    while (*(l++) != '|')
+        ;
     int num = 0;
     *wins = 0U;
     while (l != NULL && sscanf(l, " %d%n", &num, &chars_read) == 1)
@@ -51,7 +53,7 @@ check_line(char* l, size_t* wins)
 }
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 4: Scratchcards\n\n");
 
@@ -88,7 +90,7 @@ main(int argc, char *argv[])
         card++;
     }
 
-    for(size_t i = 0U; i < num_cards; i++)
+    for (size_t i = 0U; i < num_cards; i++)
         part2 += a[i];
 
     printf("Part1: %d\n", part1);

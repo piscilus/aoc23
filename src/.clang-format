@@ -18,6 +18,8 @@ IndentWidth: 4
 PPIndentWidth: 0
 IndentPPDirectives: None
 AllowAllArgumentsOnNextLine: false
+AllowShortBlocksOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: true
 AlwaysBreakAfterReturnType: All
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: No

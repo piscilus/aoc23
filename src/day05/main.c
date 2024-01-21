@@ -12,8 +12,8 @@
 #include <assert.h>
 #include <ctype.h>
 #include <inttypes.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 typedef struct
@@ -30,7 +30,7 @@ typedef struct
 } list_t;
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 5: If You Give A Seed A Fertilizer\n\n");
 
@@ -59,7 +59,7 @@ main(int argc, char *argv[])
         {
             uint64_t v = 0U;
             int n = 0;
-            if (sscanf(l, "%"PRIu64"%n", &v, &n) == 1)
+            if (sscanf(l, "%" PRIu64 "%n", &v, &n) == 1)
             {
                 num_seeds++;
                 seeds = (uint64_t*)realloc(seeds, num_seeds * sizeof(uint64_t));
@@ -94,11 +94,14 @@ main(int argc, char *argv[])
         if (isdigit(*l))
         {
             assert(num_lists > 0U);
-            list[num_lists - 1].maps = (map_t *)realloc(list[num_lists - 1U].maps, (list[num_lists - 1U].num + 1U) * sizeof(map_t));
-            if (sscanf(l, "%"PRIu64"%"PRIu64"%"PRIu64,
-                    &list[num_lists - 1U].maps[list[num_lists - 1U].num].dst,
-                    &list[num_lists - 1U].maps[list[num_lists - 1U].num].src,
-                    &list[num_lists - 1U].maps[list[num_lists - 1U].num].rng) != 3)
+            list[num_lists - 1].maps = (map_t*)realloc(
+                list[num_lists - 1U].maps,
+                (list[num_lists - 1U].num + 1U) * sizeof(map_t));
+            if (sscanf(l, "%" PRIu64 "%" PRIu64 "%" PRIu64,
+                       &list[num_lists - 1U].maps[list[num_lists - 1U].num].dst,
+                       &list[num_lists - 1U].maps[list[num_lists - 1U].num].src,
+                       &list[num_lists - 1U].maps[list[num_lists - 1U].num].rng)
+                != 3)
                 exit(EXIT_FAILURE);
             list[num_lists - 1U].num++;
         }
@@ -112,7 +115,7 @@ main(int argc, char *argv[])
         {
             for (size_t j = 0U; j < list[i].num; j++)
             {
-                if (   (value >= list[i].maps[j].src)
+                if ((value >= list[i].maps[j].src)
                     && (value < list[i].maps[j].src + list[i].maps[j].rng))
                 {
                     value = list[i].maps[j].dst + (value - list[i].maps[j].src);
@@ -124,7 +127,7 @@ main(int argc, char *argv[])
             part1 = value;
     }
 
-    printf("Part 1: %"PRIu64"\n", part1);
+    printf("Part 1: %" PRIu64 "\n", part1);
 
     free(seeds);
     for (size_t i = 0U; i < num_lists; i++)

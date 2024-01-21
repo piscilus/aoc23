@@ -47,18 +47,8 @@ part1(data_t* d)
 static int
 part2(data_t* d)
 {
-    const char* digits[] =
-    {
-        "one",
-        "two",
-        "three",
-        "four",
-        "five",
-        "six",
-        "seven",
-        "eight",
-        "nine"
-    };
+    const char* digits[] = {"one", "two",   "three", "four", "five",
+                            "six", "seven", "eight", "nine"};
 
     int calibration_value = 0;
     char* l;
@@ -110,7 +100,7 @@ part2(data_t* d)
 }
 
 int
-main(int argc, char *argv[])
+main(int argc, char* argv[])
 {
     printf("Advent of Code 2023 - Day 1: Trebuchet?!\n\n");
 
